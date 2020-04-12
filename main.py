@@ -1,5 +1,5 @@
-import os  # noqa
-os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"  # noqa
+# import os  # noqa
+# os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"  # noqa
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error
@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import keras
-import keras.backend as K
+# import keras.backend as K
 
 
 # import seaborn as sns
@@ -37,12 +37,12 @@ df['timestamp'] = pd.to_datetime(df['timestamp'], infer_datetime_format=True)
 df.set_index('timestamp', inplace=True)
 df = df.astype(float)
 
-# Add additional features
-df['momentum'] = df['volume'] * (df['open'] - df['close'])
-df['avg_price'] = (df['low'] + df['high']) / 2
-# df['range'] = df['high'] - df['low']
-df['ohlc_price'] = (df['low'] + df['high'] + df['open'] + df['close']) / 4
-df['oc_diff'] = df['open'] - df['close']
+# # Add additional features
+# df['momentum'] = df['volume'] * (df['open'] - df['close'])
+# df['avg_price'] = (df['low'] + df['high']) / 2
+# # df['range'] = df['high'] - df['low']
+# df['ohlc_price'] = (df['low'] + df['high'] + df['open'] + df['close']) / 4
+# df['oc_diff'] = df['open'] - df['close']
 
 print(df.head())
 print(df.count())
@@ -84,26 +84,26 @@ testY = y[train_size:]
 
 print(trainX[0][0])
 
-# model = Sequential()
-# model.add(
-#     Bidirectional(LSTM(30, input_shape=(X.shape[1], X.shape[2]),
-#                        return_sequences=True),
-#                   merge_mode='sum',
-#                   weights=None,
-#                   input_shape=(X.shape[1], X.shape[2])))
-# model.add(LSTM(10, return_sequences=True))
-# model.add(Dropout(0.2))
-# model.add(LSTM(4, return_sequences=False))
-# model.add(Dense(4, kernel_initializer='uniform', activation='relu'))
-# model.add(Dense(1, kernel_initializer='uniform', activation='relu'))
+model = Sequential()
+model.add(
+    Bidirectional(LSTM(30, input_shape=(X.shape[1], X.shape[2]),
+                       return_sequences=True),
+                  merge_mode='sum',
+                  weights=None,
+                  input_shape=(X.shape[1], X.shape[2])))
+model.add(LSTM(10, return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(4, return_sequences=False))
+model.add(Dense(4, kernel_initializer='uniform', activation='relu'))
+model.add(Dense(1, kernel_initializer='uniform', activation='relu'))
 
-# model.compile(loss='mean_squared_error',
-#               optimizer='adam', metrics=['mae', 'mse'])
-# print(model.summary())
+model.compile(loss='mean_squared_error',
+              optimizer='adam', metrics=['mae', 'mse'])
+print(model.summary())
 
-# history = model.fit(trainX, trainY, validation_split=0.2, epochs=1,
-#                     batch_size=32, verbose=1)
+history = model.fit(trainX, trainY, validation_split=0.2, epochs=1,
+                    batch_size=32, verbose=1)
 
-# score = model.evaluate(testX, testY, verbose=1)
-# print('Test loss:', score[0])
-# print('Test accuracy:', score[1])
+score = model.evaluate(testX, testY, verbose=1)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
