@@ -1,3 +1,6 @@
 .vscode
 venv
 .idea
+logs
+models
+*.h5
