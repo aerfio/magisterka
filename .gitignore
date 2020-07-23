@@ -4,3 +4,4 @@ venv
 logs
 models
 *.h5
+__pycache__
