@@ -6,3 +6,4 @@ models
 *.h5
 __pycache__
 my_dir
+.DS_Store
